@@ -1,0 +1,19 @@
+body {
+  background-color: rgb(20, 20, 20);
+}
+img {
+    width: 100%;
+    height: auto;
+  }
+.movie-card {
+  width: 340px;
+  background-color: unset;
+}
+
+.bi-search {
+  color:white;
+}
+
+.movie-card > .card-body {
+  color:white;
+}
