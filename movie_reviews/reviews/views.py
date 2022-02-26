@@ -21,7 +21,7 @@ class Reviews(View):
 		content = {}
 		if res.ok:
 			# limit to 10 reviews
-			content['data'] = res.json()['results']
+			content['data'] = res.json()['results'][:10]
 			print(type(content['data'][0]))
 		return render(request, self.template_name, content)
 		
