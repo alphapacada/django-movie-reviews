@@ -1,44 +1,61 @@
-{% extends 'reviews/base.html' %} {% load static %} {% block title %}Home{%
-endblock %} {% block content %}
+{% extends 'reviews/base.html' %} 
+{% load static %} 
+{% block title%}Home{%endblock %} 
+{% block content %}
 <div class="container">
-  <div class="d-flex flex-row justify-content-around flex-wrap">
-    {% for movie in data %}
-
-    <div class="card movie-card">
-      <div class="card-body">
-        <img src="{{movie.multimedia.src}}" />
-        {{movie.display_title}}
-      </div>
-    </div>
-    {% endfor %}
-    <div class="card movie-card">
-      <div class="card-body">
-        <img
-          src="https://static01.nyt.com/images/2019/06/05/arts/blackgodfather1/blackgodfather1-mediumThreeByTwo210.jpg"
-        />
-        Movie #1
-      </div>
-    </div>
-    <div class="card movie-card">
-      <div class="card-body">
-        <img
-          src="https://static01.nyt.com/images/2019/06/05/arts/blackgodfather1/blackgodfather1-mediumThreeByTwo210.jpg"
-        />
-
-        Movie #2
-      </div>
-    </div>
-    <div class="card movie-card">
-      <div class="card-body">
-        <img
-          src="https://static01.nyt.com/images/2019/06/05/arts/blackgodfather1/blackgodfather1-mediumThreeByTwo210.jpg"
-        />
-
-        Movie #3
-      </div>
-    </div>
+  <div id="movie-list" class="d-flex flex-row justify-content-around flex-wrap">
+    {% include 'reviews/movie_list.html' %}
+  </div>
+  <div class="row">
+    <button id="loadMore" class="btn btn-lg btn-danger mx-auto" id="row">
+      Load more
+    </button>
   </div>
 </div>
 {% endblock %} {% block javascript %}
-<script type="text/javascript"></script>
+<script type="text/javascript">
+  var offset = 0;
+  function loadMoreFromAPI(offset) {
+    $.ajax({
+      url: `/load_more/${offset}`,
+      type: "get",
+      success: function (response) {
+        console.log(response);
+        var movies = response.data;
+        $.each(movies, function (i) {
+          let movie = movies[i];
+          let newdiv = $(`<div class='card movie-card'>
+              <div class='card-body'>
+                <img src=${movie.multimedia.src} />
+                ${movie.display_title}
+              </div>
+            </div>`);
+          newdiv.hide();
+          $("#movie-list").append(newdiv);
+        });
+      },
+      error: function () {
+        alert("ERROR");
+      },
+    });
+  }
+  $(document).ready(function () {
+    $(".movie-card").hide();
+    $(".movie-card").slice(0, 10).show();
+    $("#loadMore").on("click", function (e) {
+      e.preventDefault();
+      $(".movie-card:hidden").slice(0, 10).slideDown();
+      if ($(".movie-card:hidden").length == 0) {
+        offset += 20;
+        loadMoreFromAPI(offset);
+      }
+      $("html,body").animate(
+        {
+          scrollTop: $(this).offset().top,
+        },
+        1500
+      );
+    });
+  });
+</script>
 {% endblock %}

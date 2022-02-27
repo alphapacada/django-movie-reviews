@@ -1,0 +1,10 @@
+
+{% for movie in data %}
+<div class="card movie-card">
+  <div class="card-body">
+    <img src="{{movie.multimedia.src}}" />
+    {{movie.display_title}}
+  </div>
+</div>
+{% endfor %}
+{% comment %} {% include 'comments.html' with comment_list=i.replies.all %} {% endcomment %}
