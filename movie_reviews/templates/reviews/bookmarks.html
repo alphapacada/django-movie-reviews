@@ -1,0 +1,14 @@
+{% extends 'reviews/base.html' %} 
+{% load static %} 
+{% block title%}Bookmarks{%endblock %} 
+{% block content %}
+{% for folder in folders %}
+{% if folder.bookmarks.exists %}
+<h1>{{folder.name}}</h1>
+<h2>{{folder.user}}</h2>
+{{folder.bookmarks.all}}
+{% include 'reviews/movie_list.html' with data=folder.bookmarks.all %}
+{% endif %}
+{% endfor %}
+{% endblock %} {% block javascript %}
+{% endblock %}
