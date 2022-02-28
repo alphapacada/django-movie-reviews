@@ -31,6 +31,10 @@
       },
     });
   }
+  $.ajaxSetup({
+    headers: { "X-CSRFToken": '{{csrf_token}}' }
+  });
+
   $(document).ready(function () {
     $(".movie-card").hide();
     $(".movie-card").slice(0, 10).show();
@@ -48,6 +52,32 @@
         1500
       );
     });
+    $(document).on('click','.bookmark', function(e) {
+      movieCard = $(this).closest(".movie-card")
+      console.log(movieCard);
+      console.log(movieCard.find('.movie-url').attr('href'))
+      console.log(movieCard.find('.movie-title').text())
+      console.log(movieCard.find('.movie-img').attr('src'))
+      
+      mov = {
+        url: movieCard.find('.movie-url').attr('href'),
+        display_title: movieCard.find('.movie-title').text(),
+        img_src: movieCard.find('.movie-img').attr('src')
+      }
+  
+      console.log(mov)
+      $.ajax({
+        type: 'POST',
+        url: "{% url 'add_bookmark' %}",
+        data: mov,
+        success: function (response) {
+          $(this).toggleClass('bookmarked');
+        },
+        error: function (response) {
+          alert("Error")
+        }
+      })
+    })
   });
 </script>
 {% endblock %}
