@@ -1,20 +1,57 @@
 body {
   background-color: rgb(20, 20, 20);
+  color:white;
   font-family: 'Helvetica', sans-serif;
 }
 img {
-    width: 100%;
+    width: 95%;
     height: auto;
   }
+
+
 .movie-card {
-  width: 340px;
+  width: 380px;
   background-color: unset;
+}
+/* .movie-card img  */
+.movie-img {
+  opacity: 1;
+  transition: .3s ease;
+}
+.movie-img:hover {
+  opacity: 0.6;
+  /* width: 100%; */
 }
 
 .bi-search {
   color:white;
 }
 
+
 .movie-card > .card-body {
   color:white;
 }
+
+.movie-card > .bi {
+  font-size: larger;
+}
+/* .movie-card:hover {
+  width: 200%;
+} */
+.bookmark a{
+  color: inherit !important;
+}
+.bookmarked{
+  color: #dc3545 !important;
+}
+
+#popup {
+  color: black !important;
+}
+
+#popup input[type="text"] {
+  width: 100%;
+}
+
+
+

@@ -2,9 +2,17 @@
 {% for movie in data %}
 <div class="card movie-card">
   <div class="card-body">
-    <img src="{{movie.multimedia.src}}" />
-    {{movie.display_title}}
+    <a class="movie-url" href="{{movie.url}}" target="_blank">
+      <img class="movie-img" src="{{movie.img_src}}" />
+    </a>
+    <div class="d-flex pt-2">
+        <h5 class="movie-title">{{movie.display_title}}</h5>
+        {% if user.is_authenticated %}
+        <span class="ms-auto bookmark {% if movie.bookmarked %}bookmarked {% endif %}">
+            <i class="bi bi-bookmark-fill"></i>
+        </span>
+        {% endif %}
+    </div>
   </div>
 </div>
 {% endfor %}
-{% comment %} {% include 'comments.html' with comment_list=i.replies.all %} {% endcomment %}

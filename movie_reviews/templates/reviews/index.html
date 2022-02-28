@@ -21,18 +21,10 @@
       type: "get",
       success: function (response) {
         console.log(response);
-        var movies = response.data;
-        $.each(movies, function (i) {
-          let movie = movies[i];
-          let newdiv = $(`<div class='card movie-card'>
-              <div class='card-body'>
-                <img src=${movie.multimedia.src} />
-                ${movie.display_title}
-              </div>
-            </div>`);
-          newdiv.hide();
+        newdiv = $(response)
           $("#movie-list").append(newdiv);
-        });
+        // var movies = response.data;
+        newdiv.hide();
       },
       error: function () {
         alert("ERROR");
