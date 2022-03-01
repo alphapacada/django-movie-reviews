@@ -106,9 +106,22 @@ class LoadJSONReview(View):
 		content = {}
 		try:
             content["data"] = load_reviews(user=user, offset=offset)
-			return JsonResponse(content, status=200)
-		except requests.exceptions.HTTPError as e:
-            return JsonResponse({}, status=400)
+
+class Bookmarks(ListView):
+	def get(self, request, *args, **kwargs):
+		folders = Collections.objects.filter(user=request.user).order_by(Lower("name"))
+		content = []
+		for fd in folders:
+			folder = {}
+			folder["name"] = fd.name
+			folder["movies"] = []
+			for bookmark in fd.bookmark_set.all():
+				mov = bookmark.movie.__dict__
+				mov["bookmarked"] = True
+				folder["movies"].append(mov)
+			content.append(folder)
+		return render(request, "reviews/bookmarks.html", {"folders": content})
+
 
 
 class LoadMoreReviews(View):

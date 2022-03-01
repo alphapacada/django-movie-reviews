@@ -1,14 +1,38 @@
-{% extends 'reviews/base.html' %} 
-{% load static %} 
-{% block title%}Bookmarks{%endblock %} 
+{% extends 'reviews/base.html' %}
+{% load static %}
+{% block title%}Bookmarks{%endblock %}
 {% block content %}
-{% for folder in folders %}
-{% if folder.bookmarks.exists %}
-<h1>{{folder.name}}</h1>
-<h2>{{folder.user}}</h2>
-{{folder.bookmarks.all}}
-{% include 'reviews/movie_list.html' with data=folder.bookmarks.all %}
-{% endif %}
-{% endfor %}
-{% endblock %} {% block javascript %}
+<div class="container container-sm">
+  {% for folder in folders %}
+  {% if folder.movies %}
+  <div class="card text-center mb-5 p-2">
+    <div class="card-header">
+      <h2>{{folder.name}}</h2>
+    </div>
+    <div class="card-body"></div>
+    {% include 'reviews/movie_list.html' with data=folder.movies %}
+  </div>
+  {% endif %}
+  {% endfor %}
+</div>
+{% block javascript %}
+<script type="text/javascript">
+  $.ajaxSetup({
+    headers: { "X-CSRFToken": '{{csrf_token}}' }
+  });
+  var url_add_bookmark = "{% url 'add_bookmark' %}"
+</script>
+<script type="text/javascript" src="{% static 'reviews/folder.js' %}"></script>
+<script type="text/javascript" src="{% static 'reviews/movie-reviews.js' %}"></script>
+{% endblock %}
+
+<style>
+  .card {
+    color: black !important;
+    background-color: rgba(255, 255, 255, 1);
+  }
+  .movie-card>.card-body {
+    color: black !important;
+  }
+</style>
 {% endblock %}
