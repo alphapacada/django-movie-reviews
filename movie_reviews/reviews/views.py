@@ -69,19 +69,22 @@ class Reviews(View):
     #
 	template_name = "reviews/index.html"
 
-	def get(self, request):
-		# default to admin
+	def get(self, request, title="Home", template_name=None):
         user = request.user
-        username = "admin"
-        password = "password"
-        user = authenticate(username=username, password=password)
-        login(request, user)
         if user.is_authenticated:
             print("USER AUTHENTICATED")
+		if template_name:
+			self.template_name = template_name
+		query = request.GET.get("q", None)
 		content = {}
-        res = load_reviews(user=user)
-
+		res = load_reviews(user=user, query=query)
+		if len(res) > 10:
+			content["hasMore"] = True
         content["data"] = res
+		content["title"] = title
+		if title == "Search":
+			content["page_title"] = f"Search results for: {query}"
+		
 		return render(request, self.template_name, content)
 
 class LoadJSONReview(View):

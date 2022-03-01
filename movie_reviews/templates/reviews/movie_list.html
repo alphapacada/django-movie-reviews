@@ -1,4 +1,3 @@
-
 {% for movie in data %}
 <div class="card movie-card">
   <div class="card-body">
@@ -6,12 +5,12 @@
       <img class="movie-img" src="{{movie.img_src}}" />
     </a>
     <div class="d-flex pt-2">
-        <h5 class="movie-title">{{movie.display_title}}</h5>
-        {% if user.is_authenticated %}
-        <span class="ms-auto bookmark {% if movie.bookmarked %}bookmarked {% endif %}">
-            <i class="bi bi-bookmark-fill"></i>
-        </span>
-        {% endif %}
+      <h5 class="movie-title">{{movie.display_title}}</h5>
+      {% if user.is_authenticated %}
+      <span class="ms-auto bookmark {% if movie.bookmarked %}bookmarked {% endif %}">
+        <i class="bi bi-bookmark-fill"></i>
+      </span>
+      {% endif %}
     </div>
   </div>
 </div>
