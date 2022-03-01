@@ -13,10 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .forms import AddToCollectionForm, CreateFolderForm
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import CreateView, FormView
-from django.core import serializers
-
+from .models import Bookmark, Collections, Movie
 
 API_URL = "https://api.nytimes.com/svc/movies/v2/reviews/search.json"
 
