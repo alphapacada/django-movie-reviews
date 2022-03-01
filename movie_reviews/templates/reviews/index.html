@@ -12,72 +12,16 @@
     </button>
   </div>
 </div>
+{% include "reviews/add_bookmark.html" %}
 {% endblock %} {% block javascript %}
 <script type="text/javascript">
-  var offset = 0;
-  function loadMoreFromAPI(offset) {
-    $.ajax({
-      url: `/load_more/${offset}`,
-      type: "get",
-      success: function (response) {
-        console.log(response);
-        newdiv = $(response)
-          $("#movie-list").append(newdiv);
-        // var movies = response.data;
-        newdiv.hide();
-      },
-      error: function () {
-        alert("ERROR");
-      },
-    });
-  }
   $.ajaxSetup({
     headers: { "X-CSRFToken": '{{csrf_token}}' }
   });
-
-  $(document).ready(function () {
-    $(".movie-card").hide();
-    $(".movie-card").slice(0, 10).show();
-    $("#loadMore").on("click", function (e) {
-      e.preventDefault();
-      $(".movie-card:hidden").slice(0, 10).slideDown();
-      if ($(".movie-card:hidden").length == 0) {
-        offset += 20;
-        loadMoreFromAPI(offset);
-      }
-      $("html,body").animate(
-        {
-          scrollTop: $(this).offset().top,
-        },
-        1500
-      );
-    });
-    $(document).on('click','.bookmark', function(e) {
-      movieCard = $(this).closest(".movie-card")
-      console.log(movieCard);
-      console.log(movieCard.find('.movie-url').attr('href'))
-      console.log(movieCard.find('.movie-title').text())
-      console.log(movieCard.find('.movie-img').attr('src'))
-      
-      mov = {
-        url: movieCard.find('.movie-url').attr('href'),
-        display_title: movieCard.find('.movie-title').text(),
-        img_src: movieCard.find('.movie-img').attr('src')
-      }
-  
-      console.log(mov)
-      $.ajax({
-        type: 'POST',
-        url: "{% url 'add_bookmark' %}",
-        data: mov,
-        success: function (response) {
-          $(this).toggleClass('bookmarked');
-        },
-        error: function (response) {
-          alert("Error")
-        }
-      })
-    })
-  });
+  var url_add_bookmark = "{% url 'add_bookmark' %}"
+  var url_add_folder = "{% url 'add-folder' %}"
+  var url_add_to_folders = "{% url 'add-to-folders' %}"
 </script>
+<script type="text/javascript" src="{% static 'reviews/folder.js' %}"></script>
+<script type="text/javascript" src="{% static 'reviews/movie-reviews.js' %}"></script>
 {% endblock %}
