@@ -1,26 +1,33 @@
 {% extends 'reviews/base.html' %} 
-{% load static %} 
-{% block title%}Home{%endblock %} 
+{% load static %}
+{% block title%}
+{{title}}
+{%endblock %} 
 {% block content %}
-<div class="container">
+<div class="container container-md">
+  {% if page_title %}
+  <h1>{{page_title}}</h1>
+  {% endif %}
   <div id="movie-list" class="d-flex flex-row justify-content-around flex-wrap">
     {% include 'reviews/movie_list.html' %}
   </div>
   <div class="row">
-    <button id="loadMore" class="btn btn-lg btn-danger mx-auto" id="row">
-      Load more
-    </button>
+    <div class="col text-center">
+      {% if hasMore %}
+      <button id="loadMore" class="btn btn-lg btn-danger" id="row">
+        Load more
+      </button>
+      {% endif %}
+    </div>
   </div>
 </div>
-{% include "reviews/add_bookmark.html" %}
+
 {% endblock %} {% block javascript %}
 <script type="text/javascript">
   $.ajaxSetup({
-    headers: { "X-CSRFToken": '{{csrf_token}}' }
+    headers: { "X-CSRFToken": "{{csrf_token}}" },
   });
-  var url_add_bookmark = "{% url 'add_bookmark' %}"
-  var url_add_folder = "{% url 'add-folder' %}"
-  var url_add_to_folders = "{% url 'add-to-folders' %}"
+  var url_add_bookmark = "{% url 'add_bookmark' %}";
 </script>
 <script type="text/javascript" src="{% static 'reviews/folder.js' %}"></script>
 <script type="text/javascript" src="{% static 'reviews/movie-reviews.js' %}"></script>
