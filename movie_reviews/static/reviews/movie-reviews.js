@@ -1,26 +1,18 @@
-
 var offset = 0;
 function loadMoreFromAPI(offset) {
   $.ajax({
     url: `/load_more/${offset}`,
     type: "get",
     success: function (response) {
-      console.log(response);
-      newdiv = $(response)
+      newdiv = $(response);
       $("#movie-list").append(newdiv);
-
-      // var movies = response.data;
       newdiv.hide();
     },
-    error: function () {
-      alert("ERROR");
-    },
+    error: function () {},
   });
 }
 
-
 $(document).ready(function () {
-  // $('[data-bs-toggle="tooltip"]').tooltip();   
   $(".movie-card").hide();
   $(".movie-card").slice(0, 10).show();
   $("#loadMore").on("click", function (e) {
@@ -37,33 +29,34 @@ $(document).ready(function () {
       1500
     );
   });
-  $(document).on('click','.bookmark', function(e) {
-    movieCard = $(this).closest(".movie-card")
-    console.log(movieCard);
-    console.log(movieCard.find('.movie-url').attr('href'))
-    console.log(movieCard.find('.movie-title').text())
-    console.log(movieCard.find('.movie-img').attr('src'))
-    
+  $(document).on("click", ".bookmark", function (e) {
+    movieCard = $(this).closest(".movie-card");
+
     mov = {
-      url: movieCard.find('.movie-url').attr('href'),
-      display_title: movieCard.find('.movie-title').text(),
-      img_src: movieCard.find('.movie-img').attr('src')
-    }
-    let bookmark = $(this)
-    console.log(mov)
+      url: movieCard.find(".movie-url").attr("href"),
+      display_title: movieCard.find(".movie-title").text(),
+      img_src: movieCard.find(".movie-img").attr("src"),
+    };
+
+    let bookmark = $(this);
     $.ajax({
-      type: 'POST',
+      type: "POST",
       url: url_add_bookmark,
       data: mov,
       success: function (response) {
-        bookmark.toggleClass('bookmarked');
-        $('#popup').modal('show')
-
+        if (response["deleted"]) {
+          bookmark.removeClass("bookmarked");
+        } else {
+          newdiv = $(response);
+          $("#add-bookmark").html(newdiv);
+          $("#popup").modal("show");
+          bookmark.addClass("bookmarked");
+        }
 
       },
       error: function (response) {
-        alert("Error")
-      }
-    })
-  })
-})
+        alert("Error");
+      },
+    });
+  });
+});

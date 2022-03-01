@@ -1,17 +1,17 @@
-$(".new-folder").on("click", function (e) {
+$(document).ready(function() {
+  $(document).on('click', '.new-folder', function (e) {
   $(this).hide();
   $(".create-new-folder").toggleClass("d-none");
 });
-$("#post-folder").on("submit", function (event) {
+$(document).on('submit', "#post-folder", function(event) {
   event.preventDefault();
-  console.log("form submitted!"); // sanity check
   var serializedData = $(this).serialize();
+  var url_add_folder = $(this).attr('action');
   $.ajax({
     type: "POST",
     url: url_add_folder,
     data: serializedData,
     success: function (response) {
-      console.log("SUCCESS");
       $("#post-folder").trigger("reset");
       $("#popup").modal("hide");
     },
@@ -20,16 +20,15 @@ $("#post-folder").on("submit", function (event) {
     },
   });
 });
-$("#post-folders").on("submit", function (event) {
+$(document).on("submit", "#post-folders", function (event) {
   event.preventDefault();
-  console.log("form submitted!"); // sanity check
   var serializedData = $(this).serialize();
+  var url_add_to_folders = $(this).attr('action')
   $.ajax({
     type: "POST",
     url: url_add_to_folders,
     data: serializedData,
     success: function (response) {
-      console.log("SUCCESS");
       $("#post-folders").trigger("reset");
       $("#popup").modal("hide");
     },
@@ -37,4 +36,5 @@ $("#post-folders").on("submit", function (event) {
       alert("Error");
     },
   });
+});
 });
