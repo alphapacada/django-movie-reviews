@@ -1,7 +1,8 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import get_object_or_404, render
-from django.db.models.functions import Lower
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.conf import settings
 from django.http import HttpResponseRedirect, JsonResponse
@@ -18,6 +19,12 @@ from django.core import serializers
 
 
 API_URL = "https://api.nytimes.com/svc/movies/v2/reviews/search.json"
+
+
+class SignUpView(CreateView):
+	form_class = UserCreationForm
+	success_url = reverse_lazy("login")
+	template_name = "registration/signup.html"
 
 
 def load_reviews(user=None, query=None, offset=None, critics_pick=None):

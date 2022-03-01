@@ -1,0 +1,17 @@
+{% extends 'reviews/base.html' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h2>Sign up</h2>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit">Sign Up</button>
+        </form>
+    </div>
+ 
+</div>
+{% endblock %}
