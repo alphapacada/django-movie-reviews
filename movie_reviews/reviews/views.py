@@ -56,22 +56,30 @@ def load_reviews(user=None, query=None, offset=None, critics_pick=None):
 		data = []
 		
         for movie in res.json()["results"]:
+			# Add default values for image and link
+			img_src = static("reviews/not-available.png")
+			url = "#"
+			if movie.get("multimedia"):
+				img_src = movie.get("multimedia")["src"]
+			if movie.get("link"):
+				url = movie["link"]["url"]
+			
             obj = {
-                "url": movie["link"]["url"],
-                "img_src": movie["multimedia"]["src"],
+				"url": url,
+				"img_src": img_src,
                 "display_title": movie["display_title"],
                 "bookmarked": False,
             }
-			if user:
-				# Check if user has bookmarked movie
-                mov = Movie.objects.filter(display_title=movie["display_title"])
 
+			# Show bookmarks if authenticated user has bookmarked movie
+			if user.is_authenticated:
+                mov = Movie.objects.filter(display_title=movie["display_title"])
 				if mov.exists():
 					if mov[0].check_bookmarked_by(user):
                         obj["bookmarked"] = True
+			
 			data.append(obj)
 		return data
-	
 class Reviews(View):
     #
 	template_name = "reviews/index.html"
