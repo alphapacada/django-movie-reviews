@@ -1,0 +1,30 @@
+{% load static %}
+<div id="popup" class="modal modal-md fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Save To</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body border-bottom">
+        {% include 'reviews/add_to_collections.html' %}
+      </div>
+      <div class="modal-body">
+        <div class="new-folder row align-items-center">
+          <i class="col-auto pe-0 bi bi-plus-square-fill"></i>
+          <h5 class="col">New Folder</h5>
+        </div>
+        <div class="create-new-folder d-none">
+          {% include 'reviews/collections_form.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block javascript %} {% endblock %}

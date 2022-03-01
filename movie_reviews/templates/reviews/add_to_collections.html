@@ -1,0 +1,6 @@
+<form id="post-folders" action="{% url 'add-to-folders' pk=movie.pk %}">
+  {% csrf_token %} {{ form1.as_p }}
+  <button class="btn btn-danger float-end" type="submit" value="Submit">
+    Save
+  </button>
+</form>

@@ -1,0 +1,7 @@
+<form id="post-folder" method="post" action="{% url 'add-folder' pk=movie.pk%}">
+    {% csrf_token %}
+    <div class="pb-2">
+      {{ form2.as_p }}
+    </div>
+    <button class="btn btn-danger float-end" type="submit" value="Submit">Save</button>
+</form>
