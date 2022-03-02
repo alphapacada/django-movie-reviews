@@ -100,7 +100,7 @@ class Reviews(View):
 		return render(request, self.template_name, content)
 class LoadMoreReviews(View):
 	def get(self, request, *args, **kwargs):
-		user = None
+		user = request.user
 		offset = kwargs.get("offset")
 		content = {}
 		content["data"] = load_reviews(user=user, offset=offset)
